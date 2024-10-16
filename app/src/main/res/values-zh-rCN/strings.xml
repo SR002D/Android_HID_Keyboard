@@ -2,6 +2,7 @@
     <string name="app_name">HID键盘</string>
     <string name="msg_e_hid">HID 设备初始化失败</string>
     <string name="FnSpace">鼠标模式</string>
+    <string name="FnBS">遥控器模式</string>
     <string name="touch_area">触摸区域</string>
     <string name="scroll_area">滚动区域</string>
     <string name="MouseLeftKey">左键</string>

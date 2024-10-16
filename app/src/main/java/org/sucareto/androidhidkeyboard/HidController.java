@@ -73,6 +73,7 @@ public class HidController {
     }
 
     public void kPress(byte code) {
+        Log.e("HID",""+code);
         for (byte i = 2; i < 8; i++) {
             if (kCode[i] == 0) {
                 kCode[i] = code;

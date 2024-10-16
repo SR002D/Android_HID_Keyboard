@@ -12,4 +12,10 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+
+    <!--窗口背景-->
+    <color name="bg_window">#f5f6f8</color>
+    <color name="bg_item">#ffffff</color>
+    <!--副标题-->
+    <color name="subtitle">#757575</color>
 </resources>

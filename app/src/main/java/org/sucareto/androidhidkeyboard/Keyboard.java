@@ -27,11 +27,15 @@ public class Keyboard extends AppCompatActivity {
         findViewById(R.id.BtnSpace).setOnTouchListener(new SpaceOnTouch());
         findViewById(R.id.BtnEnter).setOnTouchListener(new EnterOnTouch());
         findViewById(R.id.BtnFn).setOnTouchListener(new FnKeyOnTouch());
+        findViewById(R.id.Btn27).setOnTouchListener(new BSOnTouch());
 
         String packageName = getPackageName();
 
-        KeyOnTouch keyOnTouch = new KeyOnTouch();
+        KeyOnTouch keyOnTouch = new KeyOnTouch(hid);
         for (int i = 1; i < 72; i++) {
+            // btn27是BackSpace键，排除
+            if (i == 27)
+                continue;
             int resId = getResources().getIdentifier("Btn" + i, "id", packageName);
             if (resId != 0) {
                 findViewById(resId).setOnTouchListener(keyOnTouch);
@@ -57,6 +61,27 @@ public class Keyboard extends AppCompatActivity {
         super.onStart();
         if (hid.kInit()) {
             Toast.makeText(this, R.string.msg_e_hid, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class BSOnTouch implements  View.OnTouchListener {
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(View v, MotionEvent e) {
+            switch (e.getAction()) {
+                case MotionEvent.ACTION_DOWN -> {
+                    v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS);
+                    if (FnEnable) {
+                        startActivity(new Intent(Keyboard.this, Zoomcontroller.class));
+                        break;
+                    }
+                    hid.kPress((byte) Integer.parseInt(v.getTag().toString(), 16));
+                }
+                case MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    hid.kRelease((byte) Integer.parseInt(v.getTag().toString(), 16));
+                }
+            }
+            return false;
         }
     }
 
@@ -125,23 +150,6 @@ public class Keyboard extends AppCompatActivity {
         }
     }
 
-    private class KeyOnTouch implements View.OnTouchListener {
-        @SuppressLint("ClickableViewAccessibility")
-        @Override
-        public boolean onTouch(View v, MotionEvent e) {
-            switch (e.getAction()) {
-                case MotionEvent.ACTION_DOWN -> {
-                    v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS);
-                    hid.kPress((byte) Integer.parseInt(v.getTag().toString(), 16));
-                }
-                case MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    hid.kRelease((byte) Integer.parseInt(v.getTag().toString(), 16));
-                }
-            }
-            return false;
-        }
-    }
-
     private class FnKeyOnTouch implements View.OnTouchListener {
         @SuppressLint("ClickableViewAccessibility")
         @Override
@@ -176,6 +184,9 @@ public class Keyboard extends AppCompatActivity {
 
             ((Button) findViewById(R.id.BtnSpace)).setText(getResources().getString(FnEnable ? R.string.FnSpace : R.string.KeyText70));//Space
             ((Button) findViewById(R.id.BtnEnter)).setText(getResources().getString(FnEnable ? R.string.FnEnter : R.string.KeyText54));//Enter
+
+            ((Button) findViewById(R.id.Btn27)).setText(getResources().getString(FnEnable ? R.string.FnBS : R.string.KeyText27));//BackSpace
+
             return false;
         }
     }

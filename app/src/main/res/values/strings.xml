@@ -177,6 +177,7 @@
 
     <string name="KeyTextFn" translatable="false">Fn</string>
     <string name="FnSpace">Mouse mode</string>
+    <string name="FnBS">Controller mode</string>
     <string name="FnEnter" translatable="false">Ctrl + Alt + Del</string>
 
     <string name="MouseLeftKeyCode" translatable="false">1</string>
@@ -192,4 +193,6 @@
     <string name="tvMoveSpeed">Mouse Move Speed</string>
 
     <string name="BtnBackText">Back</string>
+    <string name="volume">volume</string>
+    <string name="zoom">zoom</string>
 </resources>
